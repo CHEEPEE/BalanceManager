@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    >
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_margin="5dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_account_circle_black_24dp"
+        android:tint="@color/colorRed"
+        android:id="@+id/icon_id"
+        />
+    <TextView
+        android:layout_toRightOf="@id/icon_id"
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name of Utang"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_below="@id/name"
+        android:id="@+id/des"
+        android:layout_toRightOf="@+id/icon_id"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$100000.00"
+        android:layout_below="@id/des"
+        android:layout_toRightOf="@id/icon_id"
+        android:id="@+id/balance"
+        />
+
+
+</RelativeLayout>
