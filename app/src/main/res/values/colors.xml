@@ -9,5 +9,6 @@
     <color name="colorGreen">#009688</color>
     <color name="colorGrey">#f4f4f4</color>
     <color name="colorDarkerGrey">#7f7f7f</color>
+    <color name="colorMereTransparent">#0a686868</color>
 
 </resources>

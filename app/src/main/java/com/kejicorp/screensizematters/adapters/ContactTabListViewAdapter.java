@@ -58,6 +58,7 @@ public class ContactTabListViewAdapter extends BaseAdapter {
         total_balance.setText(contactModelList.getTotal_balance());
         contact_number.setText(contactModelList.getContact_number());
 
+
         return convertView;
     }
 }

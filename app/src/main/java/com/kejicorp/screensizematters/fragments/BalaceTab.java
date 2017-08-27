@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class BalaceTab extends Fragment {
+    BalanceTabListViewAdapter balanceTabListViewAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class BalaceTab extends Fragment {
         Context context = getActivity();
         ListView balanceListView = (ListView) rootView.findViewById(R.id.lv_balance_tab);
         ArrayList<BalanceModelList> balanceModelLists = new ArrayList<BalanceModelList>();
-        BalanceTabListViewAdapter balanceTabListViewAdapter;
+
 
         String query = "Select * from "+UtilDatabaseStrings.tb_balance_manager+";";
         Cursor c1=DatabaseHelper.rawQuery(query);
@@ -50,10 +51,14 @@ public class BalaceTab extends Fragment {
         c1.close();
         balanceTabListViewAdapter = new BalanceTabListViewAdapter(context,balanceModelLists);
         balanceListView.setAdapter(balanceTabListViewAdapter);
+        balanceTabListViewAdapter.notifyDataSetChanged();
 
 
 
 
         return rootView;
+    }
+    public void datachange(){
+        balanceTabListViewAdapter.notifyDataSetChanged();
     }
 }

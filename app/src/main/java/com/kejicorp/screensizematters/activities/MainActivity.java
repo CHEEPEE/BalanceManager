@@ -1,5 +1,10 @@
 package com.kejicorp.screensizematters.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Dialog;
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -20,12 +25,22 @@ import android.view.View;
 
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kejicorp.screensizematters.fragments.BalaceTab;
 import com.kejicorp.screensizematters.fragments.ContactsTab;
 import com.kejicorp.screensizematters.fragments.HistoryTab;
 import com.kejicorp.screensizematters.R;
 import com.kejicorp.screensizematters.helper.DatabaseHelper;
+import com.kejicorp.screensizematters.utils.UtilDatabaseStrings;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -104,8 +119,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+                addAccounts(MainActivity.this);
             }
         });
 
@@ -188,4 +204,86 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(Color.parseColor(color));
         }
     }
+
+    private ArrayAdapter<String> getName(Context context) {
+        ArrayList<String> names = new ArrayList<>();
+        Cursor cursor = DatabaseHelper.rawQuery("Select * from tb_user_manager;");
+        cursor.moveToFirst();
+        if (cursor != null && cursor.getCount() != 0){
+            if (cursor.moveToFirst()){
+                do {
+                    names.add(cursor.getString(cursor.getColumnIndex(UtilDatabaseStrings.tb_u_users)));
+
+                }while (cursor.moveToNext());
+            }
+        }
+        return new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, names);
+    }
+    private void addAccounts(final Context context){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_add_accounts);
+        final AutoCompleteTextView user = (AutoCompleteTextView) dialog.findViewById(R.id.input_username);
+        final EditText input_number = (EditText) dialog.findViewById(R.id.input_number);
+        final EditText input_des = (EditText) dialog.findViewById(R.id.input_des);
+        final EditText input_bal = (EditText) dialog.findViewById(R.id.input_balance);
+
+        user.setAdapter(getName(MainActivity.this));
+        user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String gotText = user.getText().toString();
+                String phoneNumber;
+                String query = "Select * from "+UtilDatabaseStrings.tb_users_manager+" where "+UtilDatabaseStrings.tb_u_users+
+                        " ='"+gotText+"';";
+                Cursor cursor = DatabaseHelper.rawQuery(query);
+                cursor.moveToFirst();
+                if (cursor != null && cursor.getCount() != 0){
+                    if (cursor.moveToFirst()){
+                        do {
+                            phoneNumber = cursor.getString(cursor.getColumnIndex(UtilDatabaseStrings.tb_u_user_contact));
+                            input_number.setText(phoneNumber);
+                        }while (cursor.moveToNext());
+                    }
+                }
+            }
+        });
+        RelativeLayout save = (RelativeLayout) dialog.findViewById(R.id.save_account);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAccount(user.getText().toString(),input_bal.getText().toString(),input_number.getText().toString(),input_des.getText().toString());
+            }
+        });
+
+
+        dialog.show();
+
+    }
+
+    private void snacks(String text, View view){
+        Snackbar.make(view, "text", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    private void saveAccount(String user,String bal,String pNumber,String des){
+        String query = "Select * from "+UtilDatabaseStrings.tb_users_manager+" where "+UtilDatabaseStrings.tb_u_users+"= '"
+                +user+"';";
+        Cursor cursor = DatabaseHelper.rawQuery(query);
+        cursor.moveToFirst();
+        if (cursor.getCount() != 0 && cursor !=null){
+            Toast.makeText(MainActivity.this,cursor.getCount()+"",Toast.LENGTH_SHORT).show();
+            String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
+                    +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
+                    ") values('"+user+"','"+bal+"','"+des+"');";
+            DatabaseHelper.execute(insert);
+
+
+
+        }else {
+
+        }
+
+    }
+
+
 }
