@@ -1,4 +1,4 @@
-package com.kejicorp.screensizematters;
+package com.kejicorp.screensizematters.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,16 +15,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
+import com.kejicorp.screensizematters.fragments.BalaceTab;
+import com.kejicorp.screensizematters.fragments.ContactsTab;
+import com.kejicorp.screensizematters.fragments.HistoryTab;
+import com.kejicorp.screensizematters.R;
+import com.kejicorp.screensizematters.helper.DatabaseHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+        DatabaseHelper.getInstance(MainActivity.this,"balanacem.db");
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -167,11 +168,10 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Number List";
+                    return "Accounts";
                 case 1:
                     return "Balances";
                 case 2:
-
                     return "History";
             }
             return null;

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     >
   <!--  android:background="@color/colorBlue"-->
 
-    <include layout="@layout/people_item_single"/>
 
-</LinearLayout>
+  <ListView
+      android:background="@color/colorWhite"
+      android:layout_width="match_parent"
+      android:id="@+id/lv_number_list"
+      android:layout_marginLeft="5dp"
+      android:layout_marginRight="5dp"
+      android:layout_height="match_parent"></ListView>
+
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_margin="50dp"
+       android:src="@drawable/ic_widgets_black_24dp"
+       android:tint="@color/colorBlue"
+       android:id="@+id/empty"
+       />
+
+</RelativeLayout>

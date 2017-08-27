@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/colorGrey"
     android:theme="@style/AppTheme.NoActionBar"
-    tools:context="com.kejicorp.screensizematters.MainActivity">
+    tools:context="com.kejicorp.screensizematters.activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
 
@@ -49,7 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        app:fabSize="normal"
+        app:backgroundTint="@color/colorBlue"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

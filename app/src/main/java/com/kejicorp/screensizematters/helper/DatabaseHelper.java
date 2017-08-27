@@ -1,4 +1,4 @@
-package com.kejicorp.screensizematters;
+package com.kejicorp.screensizematters.helper;
 
 /**
  * Created by Keji's Lab on 26/08/2017.
