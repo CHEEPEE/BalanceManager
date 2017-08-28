@@ -23,18 +23,22 @@ import com.kejicorp.screensizematters.utils.UtilDatabaseStrings;
 import java.util.ArrayList;
 
 public class ContactsTab extends Fragment {
-
-
+    private static ListView lv;
+    private static ArrayList<ContactModelList> contactModelLists = new ArrayList<ContactModelList>();
+    private static Context context;
+    private static  ContactTabListViewAdapter contactTabListViewAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.numberlis, container, false);
-        Context context = getActivity();
-        ListView lv = (ListView) rootView.findViewById(R.id.lv_number_list);
+        context = getActivity();
+        lv = (ListView) rootView.findViewById(R.id.lv_number_list);
         lv.setEmptyView(rootView.findViewById(R.id.empty));
-        ArrayList<ContactModelList> contactModelLists = new ArrayList<ContactModelList>();
-        ContactTabListViewAdapter contactTabListViewAdapter;
+        callData();
+        return rootView;
+    }
 
+    public static void callData(){
         String query = "Select * from "+UtilDatabaseStrings.tb_users_manager+";";
 
         Cursor cursor = DatabaseHelper.rawQuery(query);
@@ -57,9 +61,7 @@ public class ContactsTab extends Fragment {
 
         contactTabListViewAdapter = new ContactTabListViewAdapter(context,contactModelLists);
         lv.setAdapter(contactTabListViewAdapter);
+        contactTabListViewAdapter.notifyDataSetChanged();
 
-
-
-        return rootView;
     }
 }

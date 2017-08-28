@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
                         appBarLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorRed)));
                         updateStatusBarColor("#E91E63");
+
+
                         break;
                     case 2:
                         appBarLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorGreen)));
@@ -135,18 +137,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -160,9 +150,11 @@ public class MainActivity extends AppCompatActivity {
             switch (position){
                 case 0:
                     ContactsTab contactsTab = new ContactsTab();
+
                     return contactsTab;
                 case 1:
                     BalaceTab balaceTab = new BalaceTab();
+
                     return balaceTab;
                 case 2:
                     HistoryTab historyTab = new HistoryTab();
@@ -220,13 +212,13 @@ public class MainActivity extends AppCompatActivity {
         return new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, names);
     }
     private void addAccounts(final Context context){
-        Dialog dialog = new Dialog(context);
+        final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_add_accounts);
         final AutoCompleteTextView user = (AutoCompleteTextView) dialog.findViewById(R.id.input_username);
         final EditText input_number = (EditText) dialog.findViewById(R.id.input_number);
         final EditText input_des = (EditText) dialog.findViewById(R.id.input_des);
         final EditText input_bal = (EditText) dialog.findViewById(R.id.input_balance);
-
+        dialog.show();
         user.setAdapter(getName(MainActivity.this));
         user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -252,11 +244,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveAccount(user.getText().toString(),input_bal.getText().toString(),input_number.getText().toString(),input_des.getText().toString());
+                BalaceTab balaceTab = new BalaceTab();
+                balaceTab.datachange();
+                ContactsTab contactsTab = new ContactsTab();
+                contactsTab.callData();
+                dialog.hide();
             }
         });
 
 
-        dialog.show();
+
 
     }
 
@@ -266,20 +263,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveAccount(String user,String bal,String pNumber,String des){
+        Integer i=0;
         String query = "Select * from "+UtilDatabaseStrings.tb_users_manager+" where "+UtilDatabaseStrings.tb_u_users+"= '"
                 +user+"';";
         Cursor cursor = DatabaseHelper.rawQuery(query);
         cursor.moveToFirst();
         if (cursor.getCount() != 0 && cursor !=null){
+
+            ArrayList<Integer> balances = new ArrayList<>();
             Toast.makeText(MainActivity.this,cursor.getCount()+"",Toast.LENGTH_SHORT).show();
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
                     ") values('"+user+"','"+bal+"','"+des+"');";
             DatabaseHelper.execute(insert);
 
+            String q = "Select * from "+UtilDatabaseStrings.tb_balance_manager+" where "+UtilDatabaseStrings.tb_b_users+
+                    "= '"+user+"';";
+            Cursor c = DatabaseHelper.rawQuery(q);
 
+            c.moveToFirst();
+            if (c.getCount() !=0 && c != null){
+                if (c.moveToFirst()){
+                    do {
+                         i = i+ Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
+                        System.out.println(i+"");
+                        balances.add(Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance))));
+                        System.out.println(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
 
-        }else {
+                    }while (c.moveToNext());
+                }
+            }
+            String update = "Update "+UtilDatabaseStrings.tb_users_manager+" set "+UtilDatabaseStrings.tb_u_totalBalance+" = '"+i+"' where "+UtilDatabaseStrings.tb_u_users+
+                    "='"+user+"';";
+            DatabaseHelper.execute(update);
+        }
+        else {
 
         }
 

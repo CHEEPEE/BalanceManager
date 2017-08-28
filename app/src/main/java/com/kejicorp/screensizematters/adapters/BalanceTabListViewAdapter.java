@@ -57,7 +57,7 @@ public class BalanceTabListViewAdapter extends BaseAdapter {
 
         user.setText(balanceModelList.getUserName());
         description.setText(balanceModelList.getDescription());
-        balance.setText(balanceModelList.getBalance());
+        balance.setText("₱ "+balanceModelList.getBalance()+".00");
 
 
         return convertView;

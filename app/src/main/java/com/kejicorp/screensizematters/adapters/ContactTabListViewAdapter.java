@@ -55,7 +55,7 @@ public class ContactTabListViewAdapter extends BaseAdapter {
         TextView contact_number = (TextView) convertView.findViewById(R.id.contact_number);
 
         userName.setText(contactModelList.getUserName());
-        total_balance.setText(contactModelList.getTotal_balance());
+        total_balance.setText("₱ "+contactModelList.getTotal_balance()+".00");
         contact_number.setText(contactModelList.getContact_number());
 
 
