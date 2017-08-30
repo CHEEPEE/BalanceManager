@@ -36,6 +36,7 @@ public class BalaceTab extends Fragment {
         return rootView;
     }
     public static void datachange(){
+        balanceModelLists.clear();
         String query = "Select * from "+UtilDatabaseStrings.tb_balance_manager+";";
         Cursor c1=DatabaseHelper.rawQuery(query);
         c1.moveToFirst();

@@ -298,6 +298,9 @@ public class MainActivity extends AppCompatActivity {
             DatabaseHelper.execute(update);
         }
         else {
+            String insertq = "insert into "+UtilDatabaseStrings.tb_users_manager+" ("+UtilDatabaseStrings.tb_u_users+","+
+                    UtilDatabaseStrings.tb_b_description+", "+UtilDatabaseStrings.tb_u_user_contact+") values('";
+
 
         }
 

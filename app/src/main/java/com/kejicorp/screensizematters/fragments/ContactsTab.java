@@ -39,6 +39,7 @@ public class ContactsTab extends Fragment {
     }
 
     public static void callData(){
+        contactModelLists.clear();
         String query = "Select * from "+UtilDatabaseStrings.tb_users_manager+";";
 
         Cursor cursor = DatabaseHelper.rawQuery(query);
