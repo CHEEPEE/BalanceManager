@@ -40,13 +40,16 @@ import com.kejicorp.screensizematters.R;
 import com.kejicorp.screensizematters.helper.DatabaseHelper;
 import com.kejicorp.screensizematters.utils.UtilDatabaseStrings;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
    public Toolbar toolbar;
    public TabLayout tabLayout;
    public AppBarLayout appBarLayout;
+    FloatingActionButton fab;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -76,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAccounts(MainActivity.this);
+            }
+        });
 
          tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -89,17 +99,21 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         appBarLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBlue)));
                         updateStatusBarColor("#03A9F4");
+                        fab.show();
+
                         break;
                     case 1:
 
                         appBarLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorRed)));
                         updateStatusBarColor("#E91E63");
+                        fab.hide();
 
 
                         break;
                     case 2:
                         appBarLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorGreen)));
                         updateStatusBarColor("#009688");
+                        fab.hide();
                         break;
 
                 }
@@ -117,17 +131,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
 
-                addAccounts(MainActivity.this);
-            }
-        });
+
 
     }
+
+
 
 
     @Override
@@ -268,41 +278,51 @@ public class MainActivity extends AppCompatActivity {
                 +user+"';";
         Cursor cursor = DatabaseHelper.rawQuery(query);
         cursor.moveToFirst();
+        ArrayList<Integer> balances = new ArrayList<>();
         if (cursor.getCount() != 0 && cursor !=null){
 
-            ArrayList<Integer> balances = new ArrayList<>();
+            String timeStamp = UtilDatabaseStrings.formatTheDate(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
             Toast.makeText(MainActivity.this,cursor.getCount()+"",Toast.LENGTH_SHORT).show();
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
-                    ") values('"+user+"','"+bal+"','"+des+"');";
+                    ","+UtilDatabaseStrings.tb_b_date+") values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"');";
             DatabaseHelper.execute(insert);
 
-            String q = "Select * from "+UtilDatabaseStrings.tb_balance_manager+" where "+UtilDatabaseStrings.tb_b_users+
-                    "= '"+user+"';";
-            Cursor c = DatabaseHelper.rawQuery(q);
 
-            c.moveToFirst();
-            if (c.getCount() !=0 && c != null){
-                if (c.moveToFirst()){
-                    do {
-                         i = i+ Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
-                        System.out.println(i+"");
-                        balances.add(Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance))));
-                        System.out.println(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
-
-                    }while (c.moveToNext());
-                }
-            }
-            String update = "Update "+UtilDatabaseStrings.tb_users_manager+" set "+UtilDatabaseStrings.tb_u_totalBalance+" = '"+i+"' where "+UtilDatabaseStrings.tb_u_users+
-                    "='"+user+"';";
-            DatabaseHelper.execute(update);
         }
         else {
-            String insertq = "insert into "+UtilDatabaseStrings.tb_users_manager+" ("+UtilDatabaseStrings.tb_u_users+","+
-                    UtilDatabaseStrings.tb_b_description+", "+UtilDatabaseStrings.tb_u_user_contact+") values('";
+            String timeStamp = UtilDatabaseStrings.formatTheDate(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
+            String insert_onUsers = "insert into "+UtilDatabaseStrings.tb_users_manager+" ("+UtilDatabaseStrings.tb_u_users+","+
+                    UtilDatabaseStrings.tb_u_user_contact+") values('"+user+"','"+pNumber+"');";
+            DatabaseHelper.execute(insert_onUsers);
+            String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
+                    +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
+                    ") values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"');";
+            DatabaseHelper.execute(insert);
 
 
         }
+
+
+        String q = "Select * from "+UtilDatabaseStrings.tb_balance_manager+" where "+UtilDatabaseStrings.tb_b_users+
+                "= '"+user+"';";
+        Cursor c = DatabaseHelper.rawQuery(q);
+
+        c.moveToFirst();
+        if (c.getCount() !=0 && c != null){
+            if (c.moveToFirst()){
+                do {
+                    i = i+ Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
+                    System.out.println(i+"");
+                    balances.add(Integer.parseInt(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance))));
+                    System.out.println(c.getString(c.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
+
+                }while (c.moveToNext());
+            }
+        }
+        String update = "Update "+UtilDatabaseStrings.tb_users_manager+" set "+UtilDatabaseStrings.tb_u_totalBalance+" = '"+i+"' where "+UtilDatabaseStrings.tb_u_users+
+                "='"+user+"';";
+        DatabaseHelper.execute(update);
 
     }
 

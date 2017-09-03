@@ -9,29 +9,36 @@ public class BalanceModelList {
     private String userName;
     private String balance;
     private String description;
+    private String date;
 
-    public String getUserName()
-    {
+    public String getUserName() {
         return userName;
     }
-    public String getBalance()
-    {
+    public String getDate(){
+        return date;
+    }
+
+    public String getBalance() {
         return balance;
     }
-    public String getDescription()
-    {
+
+    public String getDescription() {
         return description;
     }
-    public void setUsername (String setUsername)
-    {
+
+    public void setUsername(String setUsername) {
         userName = setUsername;
     }
-    public void setBalance(String setBalance)
-    {
+
+    public void setBalance(String setBalance) {
         balance = setBalance;
     }
-    public void setDescription (String setDesciption)
-    {
+
+    public void setDescription(String setDesciption) {
         description = setDesciption;
+    }
+
+    public void setDate(String setDate){
+        date = setDate;
     }
 }

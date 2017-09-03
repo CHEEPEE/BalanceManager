@@ -54,10 +54,13 @@ public class BalanceTabListViewAdapter extends BaseAdapter {
         TextView user = (TextView) convertView.findViewById(R.id.name);
         TextView description = (TextView) convertView.findViewById(R.id.des);
         TextView balance = (TextView) convertView.findViewById(R.id.balance);
+        TextView date = (TextView)convertView.findViewById(R.id.date);
+
 
         user.setText(balanceModelList.getUserName());
         description.setText(balanceModelList.getDescription());
         balance.setText("₱ "+balanceModelList.getBalance()+".00");
+        date.setText(balanceModelList.getDate());
 
 
         return convertView;

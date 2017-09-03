@@ -61,4 +61,5 @@ public class ContactTabListViewAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 }

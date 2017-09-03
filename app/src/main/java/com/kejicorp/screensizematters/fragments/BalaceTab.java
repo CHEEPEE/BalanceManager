@@ -47,7 +47,7 @@ public class BalaceTab extends Fragment {
                     balancemode.setUsername(c1.getString(c1.getColumnIndex(UtilDatabaseStrings.tb_b_users)));
                     balancemode.setBalance(c1.getString(c1.getColumnIndex(UtilDatabaseStrings.tb_b_balance)));
                     balancemode.setDescription(c1.getString(c1.getColumnIndex(UtilDatabaseStrings.tb_b_description)));
-
+                    balancemode.setDate(c1.getString(c1.getColumnIndex(UtilDatabaseStrings.tb_b_date)));
                     balanceModelLists.add(balancemode);
 
                 } while(c1.moveToNext());

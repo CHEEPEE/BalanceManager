@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,15 @@ public class ContactsTab extends Fragment {
         lv = (ListView) rootView.findViewById(R.id.lv_number_list);
         lv.setEmptyView(rootView.findViewById(R.id.empty));
         callData();
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                return false;
+            }
+        });
+
         return rootView;
     }
 
