@@ -16,6 +16,8 @@ public class UtilDatabaseStrings {
     public static String tb_b_time = "time";
     public static String tb_b_status = "status";
     public static String tb_b_description = "description";
+    public static String tb_b_id = "id";
+
 
 //    for users table
 

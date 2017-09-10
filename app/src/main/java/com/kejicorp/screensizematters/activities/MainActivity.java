@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
    public Toolbar toolbar;
    public TabLayout tabLayout;
    public AppBarLayout appBarLayout;
+    public CoordinatorLayout mainCOntent;
     FloatingActionButton fab;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mainCOntent = (CoordinatorLayout) findViewById(R.id.main_content);
 
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -285,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,cursor.getCount()+"",Toast.LENGTH_SHORT).show();
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
-                    ","+UtilDatabaseStrings.tb_b_date+") values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"');";
+                    ","+UtilDatabaseStrings.tb_b_date+",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
             DatabaseHelper.execute(insert);
 
 
@@ -297,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
             DatabaseHelper.execute(insert_onUsers);
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
-                    ") values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"');";
+                    ","+UtilDatabaseStrings.tb_b_date+",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
             DatabaseHelper.execute(insert);
 
 

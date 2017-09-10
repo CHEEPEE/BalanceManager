@@ -7,6 +7,7 @@ package com.kejicorp.screensizematters.models;
 public class BalanceModelList {
 
     private String userName;
+    private int itemId;
     private String balance;
     private String description;
     private String date;
@@ -16,6 +17,12 @@ public class BalanceModelList {
     }
     public String getDate(){
         return date;
+    }
+    public int getId(){
+        return itemId;
+    }
+    public void setItemId(int setId){
+        itemId  = setId;
     }
 
     public String getBalance() {
