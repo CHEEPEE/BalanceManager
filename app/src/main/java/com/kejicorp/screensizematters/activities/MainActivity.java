@@ -1,7 +1,5 @@
 package com.kejicorp.screensizematters.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -31,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kejicorp.screensizematters.fragments.BalaceTab;
@@ -89,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 addAccounts(MainActivity.this);
             }
         });
+
+
 
          tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -282,29 +281,36 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = DatabaseHelper.rawQuery(query);
         cursor.moveToFirst();
         ArrayList<Integer> balances = new ArrayList<>();
+        //recent User
         if (cursor.getCount() != 0 && cursor !=null){
 
             String timeStamp = UtilDatabaseStrings.formatTheDate(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
             Toast.makeText(MainActivity.this,cursor.getCount()+"",Toast.LENGTH_SHORT).show();
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
-                    ","+UtilDatabaseStrings.tb_b_date+",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
+                    ","+UtilDatabaseStrings.tb_b_preDate +",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
             DatabaseHelper.execute(insert);
 
 
+
         }
+        //new User
         else {
+
             String timeStamp = UtilDatabaseStrings.formatTheDate(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
             String insert_onUsers = "insert into "+UtilDatabaseStrings.tb_users_manager+" ("+UtilDatabaseStrings.tb_u_users+","+
                     UtilDatabaseStrings.tb_u_user_contact+") values('"+user+"','"+pNumber+"');";
             DatabaseHelper.execute(insert_onUsers);
             String insert = "Insert Into "+UtilDatabaseStrings.tb_balance_manager+"("+UtilDatabaseStrings.tb_b_users
                     +","+UtilDatabaseStrings.tb_b_balance+","+UtilDatabaseStrings.tb_b_description+
-                    ","+UtilDatabaseStrings.tb_b_date+",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
+                    ","+UtilDatabaseStrings.tb_b_preDate +",status) values('"+user+"','"+bal+"','"+des+"','"+timeStamp+"','unpaid');";
             DatabaseHelper.execute(insert);
 
 
+
         }
+
+        BalaceTab.datachange();
 
 
         String q = "Select * from "+UtilDatabaseStrings.tb_balance_manager+" where "+UtilDatabaseStrings.tb_b_users+
@@ -328,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHelper.execute(update);
 
     }
+
+
 
 
 }

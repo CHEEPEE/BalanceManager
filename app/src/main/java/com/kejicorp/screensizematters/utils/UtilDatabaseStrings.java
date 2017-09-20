@@ -12,7 +12,8 @@ public class UtilDatabaseStrings {
     public static String tb_balance_manager = "tb_balance_manager";
     public static String tb_b_users = "user";
     public static String tb_b_balance = "balance";
-    public static String tb_b_date = "date";
+    public static String tb_b_preDate = "pre_date";
+    public static String tb_b_postDate = "post_date";
     public static String tb_b_time = "time";
     public static String tb_b_status = "status";
     public static String tb_b_description = "description";

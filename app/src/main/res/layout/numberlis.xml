@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
 
     >
-  <!--  android:background="@color/colorBlue"-->
+
 
 
   <ListView
+      android:paddingTop="10dp"
       android:background="@color/colorWhite"
+      android:divider="@color/colorWhite"
       android:layout_width="match_parent"
       android:id="@+id/lv_number_list"
-      android:layout_marginLeft="5dp"
-      android:layout_marginRight="5dp"
       android:layout_height="match_parent"></ListView>
 
    <ImageView

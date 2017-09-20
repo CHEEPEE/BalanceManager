@@ -3,15 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_content"
+
     >
 
-    <!--android:background="@color/colorRed"-->
+
     <ListView
-        android:layout_margin="5dp"
+        android:paddingTop="10dp"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lv_balance_tab"
+        android:divider="@color/colorWhite"
 
         >
 

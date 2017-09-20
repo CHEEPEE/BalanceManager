@@ -10,5 +10,8 @@
     <color name="colorGrey">#f4f4f4</color>
     <color name="colorDarkerGrey">#7f7f7f</color>
     <color name="colorMereTransparent">#0a686868</color>
+    <color name="primarTextColor">#212121</color>
+    <color name="secondaryTextColor">#757575</color>
+    <color name="dividerColor">#BDBDBD</color>
 
 </resources>
