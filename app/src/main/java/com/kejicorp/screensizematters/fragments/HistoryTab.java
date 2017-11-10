@@ -38,16 +38,6 @@ public class HistoryTab extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        String[] myDataset = {"test1","test2","Test 3"};
-
-
-        mAdapter = new HistoryTabRecyclerViewAdapter(getContext(),myDataset);
-        recyclerView.setAdapter(mAdapter);
-        ;
-
-        //specifiy an adapter
-
-
         return rootView;
     }
 }
